@@ -3,7 +3,7 @@ casper.start();
 casper.then(function() {
 		
 	if (!casper.cli.has("env")) {
-		casper.echo('Usage: casperjs --env=QA1 --include=_config.js test tests/');
+		casper.echo('Usage: casperjs --env=QA1 --include=_config.js,common-video.js test tests/');
 		casper.exit();
 	}
 
