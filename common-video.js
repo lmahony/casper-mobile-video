@@ -10,6 +10,11 @@ function testHeader() {
 function testFooter() {
 	casper.test.assertExists("#ftlinks");
 }
+function testBingPageElements() {
+	casper.test.assertExists("#bing-search");
+	casper.test.assertVisible(".bingSearchImg");
+	casper.test.assertVisible(".bingSearchLogo");
+}
 
 function testVideoPage() {
 	takeScreenshot();
@@ -54,7 +59,7 @@ function testVideoNotSupportedPage() {
 }
 
 function takeScreenshot() {
-	screenshotFile = screenshotBase + device.title + ".png";
+	screenshotFile = screenshotBase + device.title + (this.bing?"-b":"") + ".png";
 	casper.capture(screenshotFile);
 	casper.echo("Screenshot: " + screenshotFile);
 }
@@ -64,7 +69,11 @@ function initVideoTests(paramsObject) {
 		this[obj] = paramsObject[obj];
 	}
 	
-	casper.echo("Device: " + device.title);
+	casper.echo("                    ");
+	casper.echo(" **** Video Page Test **** ");
+	casper.echo("URL    : " + casper.getCurrentUrl());
+	casper.echo("Device : " + device.title);
+	casper.echo("                    ");
 	
 	/* title */
 	casper.test.assertSelectorHasText("title", "Video"); 
@@ -72,6 +81,10 @@ function initVideoTests(paramsObject) {
 	testHeader();
 	
 	testFooter();
+	
+	if (paramsObject.bing) {
+		testBingPageElements();
+	}
 	
 	casper.mouseEvent('mouseover', '#ftlinks');
 	

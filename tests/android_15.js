@@ -2,8 +2,7 @@ var device = DEVICES.ANDROID_15;
 casper.options.pageSettings.userAgent = device.ua;
 
 casper.start(url, function() {
-	var params = {"device": device};
-	initVideoTests(params);
+	initVideoTests({"device": device, "bing":false});
 	casper.clear();
 });
 

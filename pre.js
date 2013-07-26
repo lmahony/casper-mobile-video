@@ -16,7 +16,7 @@ casper.then(function() {
 
 	videoUrl = VIDEOS[0].url;
 	url = ENV.url + videoUrl;
-	casper.echo(url);
+	urlB = ENV.urlBing + videoUrl;
 	
 	var d = new Date().toISOString().split(":").join("");
 	if (casper.cli.has("scr")) {
