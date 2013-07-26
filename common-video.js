@@ -58,8 +58,18 @@ function testVideoNotSupportedPage() {
 	
 }
 
+function testTitle() {
+	casper.test.assertSelectorHasText("title", "AOL"); 
+	if (device.video) casper.test.assertSelectorHasText("title", "Video"); 
+}
+
+function testDL() {
+	casper.test.assertExists("#dlw");
+	casper.test.assertVisible("#dlw");
+}
+
 function takeScreenshot() {
-	screenshotFile = screenshotBase + device.title + (this.bing?"-b":"") + ".png";
+	screenshotFile = screenshotBase + device.title + (this.video?"-v":"") + (this.bing?"-b":"") + ".png";
 	casper.capture(screenshotFile);
 	casper.echo("Screenshot: " + screenshotFile);
 }
@@ -68,15 +78,14 @@ function initVideoTests(paramsObject) {
 	for (var obj in paramsObject) {
 		this[obj] = paramsObject[obj];
 	}
-	
+	this.video = true;
 	casper.echo("                    ");
 	casper.echo(" **** Video Page Test **** ");
 	casper.echo("URL    : " + casper.getCurrentUrl());
 	casper.echo("Device : " + device.title);
 	casper.echo("                    ");
 	
-	/* title */
-	casper.test.assertSelectorHasText("title", "Video"); 
+	testTitle()
 	
 	testHeader();
 	
@@ -96,4 +105,33 @@ function initVideoTests(paramsObject) {
 		testVideoNotSupportedPage();
 	}
 	
+}
+
+function initTest(paramsObject) {
+
+	for (var obj in paramsObject) {
+		this[obj] = paramsObject[obj];
+	}
+	
+	casper.echo("                    ");
+	casper.echo(" **** Page Test **** ");
+	casper.echo("URL    : " + casper.getCurrentUrl());
+	casper.echo("Device : " + device.title);
+	casper.echo("                    ");
+	
+	testTitle()
+
+	testHeader();
+	
+	testFooter();
+	
+	if (paramsObject.bing) {
+		testBingPageElements();
+	}
+	
+	testDL();
+	
+	casper.mouseEvent('mouseover', '#ftlinks');
+	
+	takeScreenshot();
 }
